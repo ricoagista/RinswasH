@@ -41,13 +41,13 @@ public class LaundryService {
         }
     }
 
-    public boolean updateTransaksi(String tanggalSelesai, Laundry baru) {
+    public boolean updateTransaksiByNama(String nama, Laundry transaksiBaru) {
         List<Laundry> list = bacaSemua();
         boolean updated = false;
 
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getTanggalSelesai().equals(tanggalSelesai)) {
-                list.set(i, baru);
+            if (list.get(i).getNamaPelanggan().equalsIgnoreCase(nama)) {
+                list.set(i, transaksiBaru);
                 updated = true;
                 break;
             }
@@ -56,6 +56,7 @@ public class LaundryService {
         if (updated) tulisSemua(list);
         return updated;
     }
+
 
     public boolean hapusTransaksi(String tanggalSelesai) {
         List<Laundry> list = bacaSemua();

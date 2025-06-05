@@ -62,24 +62,51 @@ public class Main {
 
 
     private static void updateTransaksi() {
-        System.out.print("Tanggal Masuk untuk update: ");
-        String tMasuk = scanner.nextLine();
-        System.out.println("Masukkan data baru:");
-        System.out.print("Nama Pelanggan: ");
-        String nama = scanner.nextLine();
-        System.out.print("Jenis Layanan: ");
-        String layanan = scanner.nextLine();
-        System.out.print("Tanggal Selesai: ");
-        String tSelesai = scanner.nextLine();
-        System.out.print("Berat Cucian (kg): ");
-        int berat = scanner.nextInt();
+        System.out.print("Nama Pelanggan untuk update: ");
+        String namaCari = scanner.nextLine().trim();
 
-        Laundry baru = new Laundry(nama, layanan, tMasuk, tSelesai, berat);
-        if (laundryService.updateTransaksi(tMasuk, baru))
-            System.out.println("Transaksi berhasil diupdate.");
-        else
-            System.out.println("Transaksi tidak ditemukan.");
+        List<Laundry> semuaTransaksi = laundryService.bacaSemua();
+        boolean ditemukan = false;
+
+        for (Laundry l : semuaTransaksi) {
+            if (l.getNamaPelanggan().equalsIgnoreCase(namaCari)) {
+                ditemukan = true;
+
+                System.out.println("Masukkan data baru untuk transaksi:");
+                System.out.print("Jenis Layanan: ");
+                String layanan = scanner.nextLine().trim();
+
+                System.out.print("Tanggal Masuk (yyyy-MM-dd): ");
+                String tMasuk = scanner.nextLine().trim();
+
+                System.out.print("Tanggal Selesai (yyyy-MM-dd): ");
+                String tSelesai = scanner.nextLine().trim();
+
+                if (!tMasuk.matches("\\d{2}-\\d{2}-\\d{4}") || !tSelesai.matches("\\d{2}-\\d{2}-\\d{4}")) {
+                    System.out.println("Format tanggal salah. Harus dd-MM-yyyy (contoh: 04-06-2025).");
+                    return;
+                }
+
+
+                System.out.print("Berat Cucian (kg): ");
+                int berat = scanner.nextInt();
+                scanner.nextLine(); // konsumsi newline
+
+                Laundry transaksiBaru = new Laundry(namaCari, layanan, tMasuk, tSelesai, berat);
+
+                if (laundryService.updateTransaksiByNama(namaCari, transaksiBaru))
+                    System.out.println("Transaksi berhasil diupdate.");
+                else
+                    System.out.println("Gagal mengupdate transaksi.");
+                break;
+            }
+        }
+
+        if (!ditemukan) {
+            System.out.println("Transaksi dengan nama pelanggan \"" + namaCari + "\" tidak ditemukan.");
+        }
     }
+
 
     private static void hapusTransaksi() {
         System.out.print("Tanggal Selesai yang ingin dihapus: ");

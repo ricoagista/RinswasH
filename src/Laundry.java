@@ -1,9 +1,9 @@
 public class Laundry {
-    private String namaPelanggan;
-    private String jenisLayanan;
-    private String tanggalMasuk;
-    private String tanggalSelesai;
-    private int berat;
+    private final String namaPelanggan;
+    private final String jenisLayanan;
+    private final String tanggalMasuk;
+    private final String tanggalSelesai;
+    private final int berat;
 
     public Laundry(String namaPelanggan, String jenisLayanan, String tanggalMasuk, String tanggalSelesai, int berat) {
         this.namaPelanggan = namaPelanggan;
