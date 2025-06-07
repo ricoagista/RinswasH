@@ -1,5 +1,4 @@
 import java.util.*;
-
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
     private static final LaundryService laundryService = new LaundryService();
