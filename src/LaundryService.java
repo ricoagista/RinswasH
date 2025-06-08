@@ -2,66 +2,78 @@ import java.io.*;
 import java.util.*;
 
 public class LaundryService {
-    private static final String FILENAME = "laundry_database.txt";
-
-    public void tambahTransaksi(Laundry laundry) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(FILENAME, true))) {
-            writer.println(laundry.toString());
-        } catch (IOException e) {
-            System.out.println("Gagal menyimpan transaksi: " + e.getMessage());
-        }
-    }
+    private static final String DATABASE_FILE = "laundry_database.txt";
+    private static final String TAKEN_DATABASE_FILE = "laundry_taken_database.txt";
 
     public List<Laundry> bacaSemua() {
-        List<Laundry> list = new ArrayList<>();
-        File file = new File(FILENAME);
-        if (!file.exists()) return list;
-
-        try (Scanner scanner = new Scanner(file)) {
-            while (scanner.hasNextLine()) {
-                String[] data = scanner.nextLine().split("\\|");
+        List<Laundry> semuaTransaksi = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(DATABASE_FILE))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split("\\|");
                 if (data.length == 5) {
-                    list.add(new Laundry(data[0], data[1], data[2], data[3], Integer.parseInt(data[4])));
+                    Laundry laundry = new Laundry(data[0], data[1], data[2], data[3], Integer.parseInt(data[4]));
+                    semuaTransaksi.add(laundry);
                 }
             }
-        } catch (Exception e) {
-            System.out.println("Gagal membaca file: " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Gagal membaca database: " + e.getMessage());
         }
-
-        return list;
+        return semuaTransaksi;
     }
 
-    public void tulisSemua(List<Laundry> list) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(FILENAME))) {
-            for (Laundry l : list) {
-                writer.println(l.toString());
+    public List<Laundry> bacaRiwayatDiambil() {
+        List<Laundry> riwayatDiambil = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(TAKEN_DATABASE_FILE))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split("\\|");
+                if (data.length == 5) {
+                    Laundry laundry = new Laundry(data[0], data[1], data[2], data[3], Integer.parseInt(data[4]));
+                    riwayatDiambil.add(laundry);
+                }
             }
         } catch (IOException e) {
-            System.out.println("Gagal menulis ulang file: " + e.getMessage());
+            System.out.println("Gagal membaca riwayat laundry yang diambil: " + e.getMessage());
         }
+        return riwayatDiambil;
     }
 
-    public boolean updateTransaksiByNama(String nama, Laundry transaksiBaru) {
-        List<Laundry> list = bacaSemua();
-        boolean updated = false;
-
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getNamaPelanggan().equalsIgnoreCase(nama)) {
-                list.set(i, transaksiBaru);
-                updated = true;
-                break;
-            }
+    public void tambahTransaksi(Laundry laundry) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(DATABASE_FILE, true))) {
+            writer.write(laundry.toString());
+            writer.newLine();
+        } catch (IOException e) {
+            System.out.println("Gagal menambahkan transaksi: " + e.getMessage());
         }
-
-        if (updated) tulisSemua(list);
-        return updated;
     }
-
 
     public boolean hapusTransaksi(String tanggalSelesai) {
-        List<Laundry> list = bacaSemua();
-        boolean removed = list.removeIf(l -> l.getTanggalSelesai().equals(tanggalSelesai));
-        if (removed) tulisSemua(list);
-        return removed;
+        List<Laundry> semuaTransaksi = bacaSemua();
+        boolean ditemukan = false;
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(DATABASE_FILE))) {
+            for (Laundry laundry : semuaTransaksi) {
+                if (laundry.getTanggalSelesai().equals(tanggalSelesai)) {
+                    ditemukan = true;
+                } else {
+                    writer.write(laundry.toString());
+                    writer.newLine();
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Gagal menghapus transaksi: " + e.getMessage());
+        }
+
+        return ditemukan;
+    }
+
+    public void simpanRiwayatDiambil(Laundry laundry) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(TAKEN_DATABASE_FILE, true))) {
+            writer.write(laundry.toString());
+            writer.newLine();
+        } catch (IOException e) {
+            System.out.println("Gagal menyimpan riwayat laundry yang diambil: " + e.getMessage());
+        }
     }
 }

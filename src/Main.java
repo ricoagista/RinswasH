@@ -1,13 +1,18 @@
 import java.util.*;
+
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
     private static final LaundryService laundryService = new LaundryService();
     private static final LaporanService laporanService = new LaporanService();
+    private static final List<Laundry> riwayatDiambil = new ArrayList<>(); // History of taken laundry
 
     public static void main(String[] args) {
+        // Load history of taken laundry from the separate database
+        riwayatDiambil.addAll(laundryService.bacaRiwayatDiambil());
+
         int pilihan;
         do {
-            System.out.println("\n1. Tambah Transaksi\n2. Tampilkan Semua\n3. Update Transaksi\n4. Hapus Transaksi\n5. Laporan\n6. Keluar");
+            System.out.println("\n1. Tambah Transaksi\n2. Tampilkan Semua\n3. Ambil Laundry\n4. Hapus Transaksi\n5. Laporan\n6. Keluar");
             System.out.print("Pilih menu: ");
             pilihan = scanner.nextInt();
             scanner.nextLine();
@@ -15,9 +20,9 @@ public class Main {
             switch (pilihan) {
                 case 1 -> tambahTransaksi();
                 case 2 -> tampilkanSemua();
-                case 3 -> updateTransaksi();
+                case 3 -> ambilLaundry();
                 case 4 -> hapusTransaksi();
-                case 5 -> laporanService.tampilkanLaporan(laundryService.bacaSemua());
+                case 5 -> laporanService.tampilkanLaporan(laundryService.bacaSemua(), riwayatDiambil);
                 case 6 -> System.out.println("Keluar...");
                 default -> System.out.println("Pilihan tidak valid.");
             }
@@ -59,9 +64,8 @@ public class Main {
         System.out.println("+--------------------------------------------------------------------------+");
     }
 
-
-    private static void updateTransaksi() {
-        System.out.print("Nama Pelanggan untuk update: ");
+    private static void ambilLaundry() {
+        System.out.print("Nama Pelanggan yang ingin mengambil laundry: ");
         String namaCari = scanner.nextLine().trim();
 
         List<Laundry> semuaTransaksi = laundryService.bacaSemua();
@@ -71,41 +75,31 @@ public class Main {
             if (l.getNamaPelanggan().equalsIgnoreCase(namaCari)) {
                 ditemukan = true;
 
-                System.out.println("Masukkan data baru untuk transaksi:");
-                System.out.print("Jenis Layanan: ");
-                String layanan = scanner.nextLine().trim();
+                System.out.println("Detail Laundry:");
+                System.out.println(l.toFormattedString());
 
-                System.out.print("Tanggal Masuk (yyyy-MM-dd): ");
-                String tMasuk = scanner.nextLine().trim();
+                System.out.print("Apakah Anda yakin ingin mengambil laundry ini? (y/n): ");
+                String konfirmasi = scanner.nextLine().trim();
 
-                System.out.print("Tanggal Selesai (yyyy-MM-dd): ");
-                String tSelesai = scanner.nextLine().trim();
-
-                if (!tMasuk.matches("\\d{2}-\\d{2}-\\d{4}") || !tSelesai.matches("\\d{2}-\\d{2}-\\d{4}")) {
-                    System.out.println("Format tanggal salah. Harus dd-MM-yyyy (contoh: 04-06-2025).");
-                    return;
+                if (konfirmasi.equalsIgnoreCase("y")) {
+                    if (laundryService.hapusTransaksi(l.getTanggalSelesai())) {
+                        riwayatDiambil.add(l); // Add to history list
+                        laundryService.simpanRiwayatDiambil(l); // Save to separate database
+                        System.out.println("Laundry berhasil diambil.");
+                    } else {
+                        System.out.println("Gagal mengambil laundry.");
+                    }
+                } else {
+                    System.out.println("Pengambilan laundry dibatalkan.");
                 }
-
-
-                System.out.print("Berat Cucian (kg): ");
-                int berat = scanner.nextInt();
-                scanner.nextLine(); // konsumsi newline
-
-                Laundry transaksiBaru = new Laundry(namaCari, layanan, tMasuk, tSelesai, berat);
-
-                if (laundryService.updateTransaksiByNama(namaCari, transaksiBaru))
-                    System.out.println("Transaksi berhasil diupdate.");
-                else
-                    System.out.println("Gagal mengupdate transaksi.");
                 break;
             }
         }
 
         if (!ditemukan) {
-            System.out.println("Transaksi dengan nama pelanggan \"" + namaCari + "\" tidak ditemukan.");
+            System.out.println("Laundry dengan nama pelanggan \"" + namaCari + "\" tidak ditemukan.");
         }
     }
-
 
     private static void hapusTransaksi() {
         System.out.print("Tanggal Selesai yang ingin dihapus: ");
