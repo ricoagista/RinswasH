@@ -1,20 +1,30 @@
 package com.example.rinswash2;
 
-
 import java.io.*;
 import java.util.*;
 
 public class LaundryService {
-    private static final String FILE_NAME = "laundry_data.txt";
+    private final String fileName;
+
+    public LaundryService() {
+        this("laundry_data.txt");
+    }
+
+    public LaundryService(String fileName) {
+        this.fileName = fileName;
+    }
 
     public List<Laundry> loadData() {
         List<Laundry> list = new ArrayList<>();
-        File file = new File(FILE_NAME);
+        File file = new File(fileName);
         if (!file.exists()) return list;
 
         try (Scanner sc = new Scanner(file)) {
             while (sc.hasNextLine()) {
-                list.add(Laundry.fromString(sc.nextLine()));
+                String line = sc.nextLine();
+                if (!line.trim().isEmpty()) {
+                    list.add(Laundry.fromString(line));
+                }
             }
         } catch (Exception e) {
             System.out.println("Gagal membaca data: " + e.getMessage());
@@ -24,7 +34,7 @@ public class LaundryService {
     }
 
     public void saveData(List<Laundry> list) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(FILE_NAME))) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
             for (Laundry l : list) {
                 writer.println(l.toString());
             }

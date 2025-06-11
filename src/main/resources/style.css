@@ -1,20 +1,98 @@
+/* Root styling */
 .root {
     -fx-font-family: "Segoe UI", sans-serif;
     -fx-background-color: #f4f4f4;
 }
 
+/* Label styling */
 .label {
     -fx-font-size: 14px;
     -fx-text-fill: #333;
 }
 
+/* TextField dan ComboBox styling */
 .text-field, .combo-box {
     -fx-pref-width: 200px;
     -fx-font-size: 14px;
 }
 
+/* Tombol styling */
 .button {
     -fx-background-color: #4CAF50;
     -fx-text-fill: white;
     -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+/* Box laporan transaksi aktif */
+#laporan-box {
+    -fx-background-color: #fff;
+    -fx-border-color: #4CAF50;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 24px 18px;
+    -fx-min-width: 220px;
+    -fx-effect: dropshadow(gaussian, #bbb, 6, 0.2, 2, 2);
+    -fx-alignment: top-left; /* memastikan isi laporan rata atas */
+}
+
+/* Judul laporan */
+#laporan-judul {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4CAF50;
+    -fx-padding: 0 0 12px 0;
+}
+
+/* Detail total transaksi dan berat */
+#laporan-total-transaksi, #laporan-total-berat {
+    -fx-font-size: 15px;
+    -fx-font-weight: normal;
+    -fx-text-fill: #333;
+    -fx-padding: 6px 0 0 0;
+}
+
+/* Table styling (utama dan laporan sama) */
+.table-view, .laporan-table {
+    -fx-background-color: #fff;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-table-cell-border-color: #e0e0e0;
+    -fx-font-size: 14px;
+}
+
+.table-view .column-header-background, .laporan-table .column-header-background {
+    -fx-background-color: #4CAF50;
+}
+
+.table-view .column-header, .laporan-table .column-header, 
+.table-view .filler, .laporan-table .filler {
+    -fx-background-color: #4CAF50;
+    -fx-border-color: #4CAF50;
+}
+
+.table-view .label, .laporan-table .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.laporan-total-label {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+    -fx-padding: 8px 0 0 0;
+}
+
+.dialog-pane {
+    -fx-background-color: #f4f4f4;
+}
+
+.dialog-pane .label {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4CAF50;
+    -fx-padding: 0 0 12px 0;
 }
