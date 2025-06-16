@@ -18,7 +18,7 @@
 
 /* Tombol styling */
 .button {
-    -fx-background-color: #4CAF50;
+    -fx-background-color: #0B666A;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-cursor: hand;
@@ -60,18 +60,18 @@
     -fx-border-width: 1px;
     -fx-border-radius: 4px;
     -fx-background-radius: 4px;
-    -fx-table-cell-border-color: #e0e0e0;
+    -fx-table-cell-border-color: #35A29F;
     -fx-font-size: 14px;
 }
 
 .table-view .column-header-background, .laporan-table .column-header-background {
-    -fx-background-color: #4CAF50;
+    -fx-background-color: #35A29F;
 }
 
-.table-view .column-header, .laporan-table .column-header, 
+.table-view .column-header, .laporan-table .column-header,
 .table-view .filler, .laporan-table .filler {
-    -fx-background-color: #4CAF50;
-    -fx-border-color: #4CAF50;
+    -fx-background-color: #35A29F;
+    -fx-border-color: #35A29F;
 }
 
 .table-view .label, .laporan-table .label {
@@ -96,3 +96,12 @@
     -fx-text-fill: #4CAF50;
     -fx-padding: 0 0 12px 0;
 }
+
+.laporan-judul{
+-fx-font-size: 22px;}
+    -fx-font-weight: bold;
+    -fx-text-fill: #4CAF50;
+    -fx-effect: dropshadow(gaussian, #bbb, 6, 0.2, 2, 2);
+    -fx-padding: 0 0 18px 0;
+    -fx-alignment: center; /* memastikan judul rata tengah */
+    -fx-background-radius: 8px;

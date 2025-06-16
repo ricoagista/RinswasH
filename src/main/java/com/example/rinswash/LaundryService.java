@@ -1,4 +1,4 @@
-package com.example.rinswash2;
+package com.example.rinswash;
 
 import java.io.*;
 import java.util.*;
@@ -43,3 +43,4 @@ public class LaundryService {
         }
     }
 }
+
