@@ -13,7 +13,7 @@ public class MainApp extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/rinswash/laundry-view.fxml"));
         Parent root = loader.load();
 
-        Scene scene = new Scene(root, 800, 500);
+        Scene scene = new Scene(root, 910, 500);
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 
         primaryStage.setTitle("RinswasH");
