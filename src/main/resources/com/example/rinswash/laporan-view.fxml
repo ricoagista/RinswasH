@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -41,5 +42,6 @@
             </GridPane>
          </children>
       </HBox>
+      <Button fx:id="btnPrintNota" layoutX="500.0" layoutY="386.0" mnemonicParsing="false" onAction="#printNota" text="Print Nota (PDF)" prefWidth="120.0"/>
    </children>
 </AnchorPane>

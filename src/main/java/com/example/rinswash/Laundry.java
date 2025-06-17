@@ -55,3 +55,22 @@ public class Laundry {
     }
 }
 
+/*
+1. Cara Menambah Fitur Search:
+   - Tambahkan TextField di FXML.
+   - Di LaundryController, gunakan FilteredList yang membungkus ObservableList utama.
+   - FilteredList dihubungkan ke TableView.
+   - Predikat filter diperbarui setiap kali teks di TextField pencarian berubah.
+
+2. Cara Mengubah Harga Layanan Tanpa Ubah Kode:
+   - Modifikasi Laundry.java.
+   - Jangan hardcode harga (misal: 7000/10000).
+   - Buat fungsi untuk membaca harga dari file eksternal (misal: config.txt).
+   - Pemilik laundry cukup mengubah isi file config.txt untuk menyesuaikan harga.
+
+3. Mengapa Tidak Ada Tombol "Hapus" Permanen:
+   - Ini keputusan desain (UX).
+   - Data transaksi jarang dihapus permanen karena penting untuk arsip.
+   - Proses "Ambil Laundry" lebih sesuai alur bisnis.
+   - Jika fitur hapus permanen diperlukan (misal: data salah input), bisa ditambah tombol "Hapus" baru.
+*/
