@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.Objects;
+
 import javafx.scene.Parent;
 
 public class MainApp extends Application {
@@ -14,7 +16,7 @@ public class MainApp extends Application {
         Parent root = loader.load();
 
         Scene scene = new Scene(root, 910, 500);
-        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("style.css")).toExternalForm());
 
         primaryStage.setTitle("RinswasH");
         primaryStage.setScene(scene);

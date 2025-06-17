@@ -11,7 +11,6 @@ public class Laundry {
     private final IntegerProperty biaya;
 
 
-
     public Laundry(String nama, String layanan, String tMasuk, String tSelesai, int berat) {
         this.nama = new SimpleStringProperty(nama);
         this.layanan = new SimpleStringProperty(layanan);
@@ -41,7 +40,8 @@ public class Laundry {
     public void setTSelesai(String value) { tSelesai.set(value); }
     public void setBerat(int value) {
         berat.set(value);
-        biaya.set(hitungBiaya(getLayanan(),value));}
+        biaya.set(hitungBiaya(getLayanan(),value));
+    }
 
 
     @Override
